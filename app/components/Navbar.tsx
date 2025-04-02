@@ -1,136 +1,96 @@
-"use client";
-
-import { useState } from "react";
+import { GiCpuShot } from "react-icons/gi";
+import { HiMenu, HiX } from "react-icons/hi";
+import { FaChevronDown } from "react-icons/fa";
 import Link from "next/link";
-import { FiMenu, FiX, FiChevronDown } from "react-icons/fi";
+import { useState } from "react";
+import { navLinks } from "./data/linksdata";
 
-const navlinks = [
-  { name: "Home", href: "/" },
-  { name: "PCs", href: "/pcs" },
-  { name: "Laptops", href: "/laptops" },
-  {
-    name: "Components",
-    dropdown: true,
-    sublinks: [
-      { name: "CPUs", href: "/components/cpus" },
-      { name: "GPUs", href: "/components/gpus" },
-      { name: "RAM", href: "/components/ram" },
-      { name: "Storage", href: "/components/storage" },
-      { name: "Power Supplies", href: "/components/psu" },
-      { name: "Cases", href: "/components/cases" },
-      { name: "Cooling", href: "/components/cooling" },
-    ],
-  },
-  { name: "Accessories", href: "/accessories" },
-  { name: "Sold Items", href: "/sold" },
-  { name: "Contact", href: "/contact" },
-];
+export default function Navbar() {
+    const [isOpen, setIsOpen] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
 
-const Navbar = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+    // Open/close the dropdown on hover
+    const handleDropdownToggle = (title: string) => {
+        if (dropdownOpen === title) {
+            setDropdownOpen(null); // Close dropdown if it's already open
+        } else {
+            setDropdownOpen(title); // Open dropdown if not already open
+        }
+    };
 
-  return (
-    <nav className="fixed w-[95%] bg-gray-900/70 backdrop-blur-lg shadow-md z-50">
-      <div className="container mx-auto flex justify-between items-center px-6 py-4">
-        <Link href="/" className="text-xl font-light text-white tracking-wide">
-          TechStore
-        </Link>
+    return (
+        <>
+            <div className="bg-gradient-to-r from-black via-black/80 to-red-900 z-50 sticky top-0 left-0 w-[95%] mt-8 rounded-lg font-light backdrop-blur-md flex justify-between md:justify-normal md:gap-x-25 items-center p-4 ">
+                <GiCpuShot size={50} />
+                <div className="hidden md:flex w-5/6 md:justify-around flex-1">
+                    {navLinks.map((nav) => (
+                        <div 
+                            key={nav.title} 
+                            className="relative group"
+                            onMouseEnter={() => setDropdownOpen(nav.title)}  // Open dropdown on hover
+                            onMouseLeave={() => setDropdownOpen(null)}  // Close dropdown on mouse leave
+                        >
+                            <div className="flex items-center gap-1 text-white hover:text-gray-300 cursor-pointer">
+                                {nav.title} 
+                                <FaChevronDown className="transition-transform duration-300 group-hover:rotate-180 text-red-800  " />
+                            </div>
+                            {dropdownOpen === nav.title && (
+                                <div 
+                                    className="absolute left-0 mt-2 bg-black/90 text-white p-2 rounded shadow-lg opacity-100 transition-all duration-500 ease-in-out transform scale-95 group-hover:scale-100"
+                                >
+                                    {nav.sublinks.map((sublink) => (
+                                        <Link 
+                                            key={sublink.title} 
+                                            href={sublink.link} 
+                                            className="block px-4 py-2 hover:border-l-2 hover:border-l-red-900 transition-colors duration-300"
+                                        >
+                                            {sublink.title}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+                <HiMenu size={30} className="cursor-pointer md:hidden" onClick={() => setIsOpen(true)} />
+            </div>
 
-        <ul className="hidden md:flex space-x-8 text-white text-sm font-light tracking-wide">
-          {navlinks.map((link, index) =>
-            link.dropdown ? (
-              <li key={index} className="relative group">
-                <button
-                  onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-1 hover:text-gray-300 transition"
-                >
-                  {link.name}
-                  <FiChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
-                </button>
-                <ul
-                  className={`absolute left-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity ${
-                    dropdownOpen ? "opacity-100" : ""
-                  }`}
-                >
-                  {link.sublinks?.map((sublink, subIndex) => (
-                    <li key={subIndex}>
-                      <Link
-                        href={sublink.href}
-                        className="block px-4 py-2 hover:bg-gray-700 rounded-md transition"
-                      >
-                        {sublink.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ) : (
-              <li key={index}>
-                <Link href={link.href as string} className="hover:text-gray-300 transition">
-                  {link.name}
-                </Link>
-              </li>
-            )
-          )}
-        </ul>
-
-        <button
-          className="md:hidden text-white"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
-        </button>
-
-        <div
-          className={`fixed top-0 right-0 h-full w-64 bg-black p-6 shadow-lg transform transition-transform duration-300 ${
-            mobileMenuOpen ? "translate-x-0" : "translate-x-[150%]"
-          }`}
-        >
-          <button
-            className="text-white mb-2"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            <FiX className="w-6 h-6" />
-          </button>
-          <ul className="flex flex-col p-2 w-64 bg-black right-0 fixed  space-y-6 text-white text-sm font-light">
-            {navlinks.map((link, index) =>
-              link.dropdown ? (
-                <li key={index} className="relative bg-black">
-                  <button
-                    onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center justify-center gap-1 hover:text-gray-300 w-full text-left transition"
-                  >
-                    {link.name} <FiChevronDown className="w-4 h-4" />
-                  </button>
-                  {dropdownOpen && (
-                    <ul className="mt-2 transition-transform duration-300 bg-gray-800 rounded-lg p-2">
-                      {link.sublinks?.map((sublink, subIndex) => (
-                        <li key={subIndex}>
-                          <Link
-                            href={sublink.href}
-                            className="block px-4 py-2 hover:bg-gray-700 rounded-md transition"
-                          >
-                            {sublink.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ) : (
-                <li key={index}>
-                  <Link href={link.href as string} className="hover:text-gray-300 transition">
-                    {link.name}
-                  </Link>
-                </li>
-              )
-            )}
-          </ul>
-        </div>
-      </div>
-    </nav>
-  );
-};
-
-export default Navbar;
+            {/* Mobile menu */}
+            <div className={`fixed top-0 right-0 h-full w-80 sm:w-110 bg-gradient-to-r mt-8 from-black/50 via-black/80 to-black text-white transform ${isOpen ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 p-6 flex flex-col z-50 md:hidden`}>
+                <div className="flex justify-between items-center mb-6">
+                    <div className="flex items-center gap-x-2">
+                        <GiCpuShot size={40} />
+                        <h1 className="text-lg sm:text-3xl font-bold uppercase">MonsterCat</h1>
+                    </div>
+                    <HiX size={30} className="cursor-pointer" onClick={() => setIsOpen(false)} />
+                </div>
+                <div className="flex-1 overflow-y-auto space-y-4">
+                    {navLinks.map((nav) => (
+                        <div key={nav.title}>
+                            <button 
+                                className="w-full text-left p-2 hover:bg-gray-700 hover:border-l-2 hover:border-l-red-900 flex justify-between items-center transition-colors duration-300" 
+                                onClick={() => handleDropdownToggle(nav.title)} // Toggle dropdown on click for mobile
+                            >
+                                {nav.title} 
+                                <FaChevronDown className={`transition-transform duration-300 ${dropdownOpen === nav.title ? "rotate-180" : ""}`} />
+                            </button>
+                            {dropdownOpen === nav.title && (
+                                <div className="ml-4 border-l border-gray-600 pl-4">
+                                    {nav.sublinks.map((sublink) => (
+                                        <Link 
+                                            key={sublink.title} 
+                                            href={sublink.link} 
+                                            className="block py-1 text-gray-300 hover:text-white transition-colors duration-300"
+                                        >
+                                            {sublink.title}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </>
+    );
+}
