@@ -1,17 +1,19 @@
-import Image from "next/image"
-const Backgorund = () => { 
+import Image from "next/image";
+
+const Background = () => { 
     return (
-        <div className="  absolute w-screen h-[80vh] md:h-[120vh] left-0 top-0 -z-10 overflow-hidden">
+        <div className="relative w-screen h-[120vh] overflow-hidden">
             <Image
                 priority
                 layout="fill"
                 objectFit="cover"
-                className="scale-110  " src="/background.jpg" alt="backgorund picture " />
-            
-            <div className="absolute bg-black/50 w-full h-full" ></div>
+                className="scale-110"
+                src="/background.jpg"
+                alt="background picture"
+            />
+            <div className="absolute bg-black/50 w-full h-full"></div>
         </div>
-    )
-}
+    );
+};
 
-
-export default Backgorund
+export default Background;

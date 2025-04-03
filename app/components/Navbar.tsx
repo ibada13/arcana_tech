@@ -20,7 +20,7 @@ export default function Navbar() {
 
     return (
         <>
-            <div className="bg-gradient-to-r from-black via-black/80 to-red-900 z-50 sticky top-0 left-0 w-[95%] mt-8 rounded-lg font-light backdrop-blur-md flex justify-between md:justify-normal md:gap-x-25 items-center p-4 ">
+            <div className="bg-gradient-to-r from-black via-black/80 to-red-900 z-50 fixed top-0 left-1/2 transform -translate-x-1/2 w-[95%] mt-8 rounded-lg font-light backdrop-blur-md flex justify-between md:justify-normal md:gap-x-25 items-center p-4 ">
                 <GiCpuShot size={50} />
                 <div className="hidden md:flex w-5/6 md:justify-around flex-1">
                     {navLinks.map((nav) => (
@@ -58,9 +58,9 @@ export default function Navbar() {
             {/* Mobile menu */}
             <div className={`fixed top-0 right-0 h-full w-80 sm:w-110 bg-gradient-to-r mt-8 from-black/50 via-black/80 to-black text-white transform ${isOpen ? "translate-x-0" : "translate-x-full"} transition-transform duration-300 p-6 flex flex-col z-50 md:hidden`}>
                 <div className="flex justify-between items-center mb-6">
-                    <div className="flex items-center gap-x-2">
+                    <div className="flex items-center gap-x-4">
                         <GiCpuShot size={40} />
-                        <h1 className="text-lg sm:text-3xl font-bold uppercase">MonsterCat</h1>
+                        <h1 className="text-lg sm:text-3xl font-bold uppercase">Arcana</h1>
                     </div>
                     <HiX size={30} className="cursor-pointer" onClick={() => setIsOpen(false)} />
                 </div>
