@@ -11,7 +11,7 @@ const Background = () => {
                 src="/background.jpg"
                 alt="background picture"
             />
-            <div className="absolute bg-black/50 w-full h-full"></div>
+            <div className="absolute bg-gradient-to-b from-black/20  via-black/50 to-80% to-black w-full h-full"></div>
         </div>
     );
 };

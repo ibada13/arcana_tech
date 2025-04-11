@@ -9,7 +9,10 @@ interface AuthHookOptions {
     middleware?: 'auth' | 'guest'
     redirectIfAuthenticated?: string
 }
-
+interface token { 
+  access_token: string, 
+  token_type :string,
+}
 // interface FormHandlers {
 //     setErrors: (errors: Record<string, string[]>) => void
 //     setStatus?: (status: string | null) => void
@@ -75,7 +78,7 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: AuthHookOptions
             }
             )
             console.log(response)
-          const  token = response.data.access_token
+          const  token = (response.data as token).access_token
           localStorage.setItem('token', token)
           setIsAuth(true)
         //   router.push('/dashboard') 
@@ -90,10 +93,10 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: AuthHookOptions
 
 
 
-    const register = async (email: string, password: string) => {
+    const register = async (username:string,email: string, password: string) => {
         try {
-          const response = await axios.post('/auth/register', { email, password })
-          const { token } = response.data
+          const response = await axios.post('/auth/register', {username, email, password })
+          const { token } = response.data.access_token
           localStorage.setItem('token', token)
           setIsAuth(true)
           router.push('/dashboard')
