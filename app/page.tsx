@@ -11,7 +11,7 @@ export default function Home() {
       <Navbar />
       <Welcome />
 
-<Pcs/>
+    <Pcs/>
     </div>
   );
 }
