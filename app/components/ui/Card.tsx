@@ -10,17 +10,20 @@ export default function Card({ product }: { product: any }) {
         >
             <div className="relative h-44 w-full mb-12">
                 <Image
-                    src={product.image}
+                    src={"/pc1.jpg"}
                     alt={`${product.name}`}
                     fill
                     className="object-cover transition-all duration-500 ease-in-out group-hover:opacity-0 group-hover:scale-105"
                 />
+                { 
+                product.alternate_images&&
                 <Image
-                    src={product.alternate_images[0]}
-                    alt={`${product.name} alt`}
-                    fill
-                    className="object-cover opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:scale-105"
+                src={product.alternate_images[0]}
+                alt={`${product.name} alt`}
+                fill
+                className="object-cover opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:scale-105"
                 />
+            }
             </div>
 
             <div className=" p-4 flex justify-between items-center">
