@@ -13,13 +13,13 @@ interface navlink {
 export const navLinks: navlink[] = [
     {
         title: "PCs",
-        link: "/pcs",
+        link: "/products",
         sublinks: [
-            { title: "Gaming PCs", link: "/pcs/gaming" },
-            { title: "Workstations", link: "/pcs/workstations" },
-            { title: "Mini PCs", link: "/pcs/mini" },
-            { title: "All-in-One PCs", link: "/pcs/all-in-one" },
-            { title: "Barebone PCs", link: "/pcs/barebone" },
+            { title: "Gaming PCs", link: "/products/gaming" },
+            { title: "Workstations", link: "/products/workstations" },
+            { title: "Mini PCs", link: "/products/mini" },
+            { title: "All-in-One PCs", link: "/products/all-in-one" },
+            { title: "Barebone PCs", link: "/products/barebone" },
         ],
     },
     {

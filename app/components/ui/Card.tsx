@@ -1,22 +1,34 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Pc } from "../data/pcsdata";
+import { Pc } from "../data/data";
 
-export default function Card({ pc }: { pc: Pc }) {
+export default function Card({ product }: { product: any }) {
     return (
-        <Link 
-            href={`/pc/${pc.id}`} 
-            className="flex flex-col w-64 h-auto border-2 border-transparent bg-gray-800 rounded-xl p-4 transition-all hover:shadow-xl hover:border-gray-600 transform hover:scale-105">
-            <div className="relative h-48 w-full mb-2 rounded-lg overflow-hidden">
+        <Link
+            href={`/pc/${product.id}`}
+            className="group relative w-64 rounded-2xl overflow-hidden border border-gray-700 bg-black/60 backdrop-blur-sm hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl"
+        >
+            <div className="relative h-44 w-full mb-12">
                 <Image
-                    src={pc.image} 
-                    alt={`${pc.id} image`}
-                    layout="fill"
-                    objectFit="cover"
-                    className="transition-all duration-300 transform hover:scale-110"
+                    src={product.image}
+                    alt={`${product.name}`}
+                    fill
+                    className="object-cover transition-all duration-500 ease-in-out group-hover:opacity-0 group-hover:scale-105"
+                />
+                <Image
+                    src={product.alternate_images[0]}
+                    alt={`${product.name} alt`}
+                    fill
+                    className="object-cover opacity-0 transition-all duration-500 ease-in-out group-hover:opacity-100 group-hover:scale-105"
                 />
             </div>
-            <p className="text-xl font-semibold text-white text-center truncate">{pc.id}</p>
+
+            <div className=" p-4 flex justify-between items-center">
+                <p className="text-white text-center text-lg font-semibold truncate">{product.name}</p>
+                <p className="text-center text-lg font-bold  text-gray-500 underline group-hover:text-green-400 group-hover:no-underline transition-all duration-300">99.99$</p>
+            </div>
+
+            <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-gray-500/80 transition-all duration-300 pointer-events-none" />
         </Link>
     );
 }
