@@ -12,10 +12,10 @@ export default function Home() {
       {/* <Navbar /> */}
       <Welcome />
 
-    <Products products={pcs} title="our best sellers"/>
-    <Products products={pcs} proucts_size={3} title="added recently"/>
+    <Products link={"/"} type="gaming" title="our best sellers"/>
+    <Products type="gaming" limit={3} title="added recently"/>
     <DivBackground src="/divbackground3.jpg"/>
-    <Products products={components} proucts_size={3} title="best components to build your pc"/>
+    {/* <Products products={components} proucts_size={3} title="best components to build your pc"/> */}
     </div>
   );
 }
