@@ -20,7 +20,7 @@ export default function Navbar() {
 
     return (
         <>
-            <div className="bg-gradient-to-r from-black via-black/80 to-red-900 z-50 fixed top-0 left-1/2 transform -translate-x-1/2 w-[95%] mt-8 rounded-lg font-light backdrop-blur-md flex justify-between md:justify-normal md:gap-x-25 items-center p-4 ">
+            <div className="bg-gradient-to-r from-black via-black/60 to-red-900 z-50 fixed top-0 left-1/2 transform -translate-x-1/2 w-[95%] mt-8 rounded-lg font-light backdrop-blur-md flex justify-between md:justify-normal md:gap-x-25 items-center p-4 ">
                 <GiCpuShot size={50} />
                 <div className="hidden md:flex w-5/6 md:justify-around flex-1">
                     {navLinks.map((nav) => (

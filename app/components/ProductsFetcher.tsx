@@ -6,8 +6,9 @@ import Error from "../Error";
 import NoRes from "../NoRes";
 import Link from "next/link";
 import Loading from "../Loading";
+import Products from "./ui/Products";
 import { useSearchParams } from "next/navigation";
-export default function Products({ title, type ,limit  ,link}: {title:string , type?  :string ,limit?:number , link?:string }) { 
+export default function ProductsFetcher({ title, type ,limit  ,link}: {title:string , type?  :string ,limit?:number , link?:string }) { 
     const params = new URLSearchParams() 
     if (type)
         params.append("product_type", type)
@@ -27,12 +28,7 @@ export default function Products({ title, type ,limit  ,link}: {title:string , t
             link&&
             <Link href={link} className="text-white  font-bold uppercase text-4xl">{ title}</Link>
             }
-        <div id="pcs" className="w-full self-center  min-h-screen place-items-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-15 ">
-
-            {data.products.map((item:any, index:number) => (
-                <Card product={item} key={`pc-${index}`}/>
-            ))}
-        </div>
+            <Products products={data.products}/>
             </div>
     );
 }

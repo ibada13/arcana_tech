@@ -3,7 +3,7 @@ import { useParams } from "next/navigation"
 import useSWR from "swr";
 import { get } from "@/app/lib/utlis";
 import Card from "@/app/components/ui/Card";
-import Products from "@/app/components/Products";
+import Products from "@/app/components/ProductsFetcher";
 import Loading from "@/app/Loading";
 import Error from "@/app/Error";
 import  NoRes from "@/app/NoRes"

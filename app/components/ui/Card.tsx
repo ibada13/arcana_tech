@@ -5,10 +5,10 @@ import { Pc } from "../data/data";
 export default function Card({ product }: { product: any }) {
     return (
         <Link
-            href={`/pc/${product.id}`}
-            className="group relative w-64 rounded-2xl overflow-hidden border border-gray-700 bg-black/60 backdrop-blur-sm hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl"
+            href={`/product/${product.id}`}
+            className="group relative w-64 rounded-sm overflow-hidden border border-gray-700 bg-black/60 backdrop-blur-sm hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl"
         >
-            <div className="relative h-44 w-full mb-12">
+            <div className="relative h-44 w-full ">
                 <Image
                     src={"/pc1.jpg"}
                     alt={`${product.name}`}
@@ -26,8 +26,8 @@ export default function Card({ product }: { product: any }) {
             }
             </div>
 
-            <div className=" p-4 flex justify-between items-center">
-                <p className="text-white text-center text-lg font-semibold truncate">{product.name}</p>
+            <div className=" p-4 flex flex-col justify-between items-center ">
+                <p className="text-white text-center text-lg font-semibold truncate uppercase">{product.name}</p>
                 <p className="text-center text-lg font-bold  text-gray-500 underline group-hover:text-green-400 group-hover:no-underline transition-all duration-300">99.99$</p>
             </div>
 
