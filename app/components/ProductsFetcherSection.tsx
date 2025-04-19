@@ -7,13 +7,23 @@ import NoRes from "../NoRes";
 import Link from "next/link";
 import Loading from "../Loading";
 import Products from "./ui/Products";
-import { useSearchParams } from "next/navigation";
-export default function ProductsFetcher({ title, type ,limit  ,link}: {title:string , type?  :string ,limit?:number , link?:string }) { 
+
+
+const allowedTitles: Record<string, string> = {
+    best: "Our Best Sellers",
+    new: "New Arrivals",
+    sale: "On Sale",
+  }
+
+export default function ProductsFetcher({ title, type ,limit  ,link ,feed}: {title:string , type?  :string ,limit?:number , link?:string ,feed?:string }) { 
     const params = new URLSearchParams() 
     if (type)
         params.append("product_type", type)
     if (limit != undefined)
         params.append("limit" , String(limit))
+    if (feed)
+        params.append("feed", feed)
+    
     const {data , error , isLoading } = useSWR(`/products/search?${params.toString()}` , get)
     if (isLoading)
         return <Loading />

@@ -2,7 +2,7 @@
 import Backgorund from "./components/Background";
 import Navbar from "./components/Navbar";
 import Welcome from "./components/subcomponents/Welcome";
-import ProductsFetcher from "./components/ProductsFetcher";
+import ProductsFetcher from "./components/ProductsFetcherSection";
 import DivBackground from "./components/DivBackground";
 import { pcs ,components } from "./components/data/data";
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
       {/* <Navbar /> */}
       <Welcome />
 
-    <ProductsFetcher link={"/best"} limit={6} type="gaming" title="our best sellers"/>
+    <ProductsFetcher feed="best" link={"/feed/best"} limit={6}  title="our best sellers"/>
     fsdsfsa
     <ProductsFetcher type="gaming" limit={3} title="added recently"/>
     <DivBackground src="/divbackground3.jpg"/>
