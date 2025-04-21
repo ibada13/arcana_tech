@@ -14,8 +14,8 @@ const allowedTitles: Record<string, string> = {
     new: "New Arrivals",
     sale: "On Sale",
   }
-
-export default function ProductsFetcher({ title, type ,limit  ,link ,feed}: {title:string , type?  :string ,limit?:number , link?:string ,feed?:string }) { 
+type Feed = "best"|"new"
+export default function ProductsFetcherSection({ title, type ,limit  ,link ,feed}: {title:string , type?  :string ,limit?:number , link?:string ,feed?:Feed }) { 
     const params = new URLSearchParams() 
     if (type)
         params.append("product_type", type)
@@ -33,10 +33,10 @@ export default function ProductsFetcher({ title, type ,limit  ,link ,feed}: {tit
         return <NoRes/>
     return (
 
-        <div className="flex flex-col gap-y-12 px-8 mb-18">
+        <div className="flex flex-col gap-y-8 px-8 ">
             { 
             link&&
-            <Link href={link} className="text-white  font-bold uppercase text-4xl">{ title}</Link>
+            <Link href={link} className="text-white  font-bold uppercase text-4xl hover:underline hover:tracking-wider w-1/2 transition-all duration-300">{ title}</Link>
             }
             <Products products={data.products}/>
             </div>

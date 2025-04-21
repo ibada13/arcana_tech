@@ -7,16 +7,17 @@ import Products from "@/app/components/ui/Products";
 import Loading from "@/app/Loading";
 import Error from "@/app/Error";
 import  NoRes from "@/app/NoRes"
+import { useMemo } from "react";
 export default function ProductsFetcher({title , type , feed , limit  }: {title?:string ,type?:string , feed?:string , limit?:string}) { 
-    const params = new URLSearchParams()
-    if (type)
-        params.append("type", type)
-    if (feed)
-        params.append("feed", feed)
-    if (limit)
-        params.append("limit", limit)
-    
-    const {data,error ,isLoading } = useSWR(`/products/search?${params.toString()}` , get)
+    const query = useMemo(() => {
+        const p = new URLSearchParams();
+        if (type) p.append("type", type);
+        if (feed) p.append("feed", feed);
+        if (limit) p.append("limit", limit);
+        return `/products/search?${p.toString()}`;
+      }, [type, feed, limit]);
+      
+      const { data, error, isLoading } = useSWR(query, get);
     if (isLoading)
         return <Loading/>
     if (error)

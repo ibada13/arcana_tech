@@ -7,20 +7,20 @@ import useSWR from "swr"
 import NoRes from "@/app/NoRes"
 export default function Product() { 
     const { id } = useParams() as {id:string}
-    const {data , isLoading ,error } = useSWR(`/products/search?id=${id}`,get)
+    const {data , isLoading ,error } = useSWR(`/product?id=${id}`,get)
     if (isLoading)
             return <Loading />
     if (error)
             return <Error/>
-    if (!data?.products?.length)
+    if (!data?.product)
         return <NoRes />
     
-    console.log(data?.products)
+    console.log(data?.product)
     return (
         <div className="mt-32 flex gap-x-3 p-4">
             <div className="flex flex-col w-[50vw] gap-y-4">
 
-            {Object.entries(data.products[0] as any).map(([key, value]) => (
+            {Object.entries(data.product as any).map(([key, value]) => (
                 <div className="flex gap-x-2">
 
                     <p className="text-gray-500 font-bold text-lg border-l-2 border-l-red-500 px-2 rounded-sm">
