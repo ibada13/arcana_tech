@@ -5,7 +5,8 @@ import {get} from "@/app/lib/utlis"
 import Link from "next/link";
 
 import { useSearchParams } from "next/navigation";
-export default function Products({ products }: {products:any[]}) { 
+import { ProductsType } from "@/app/(optional)/data/type";
+export default function Products({ products }: {products:ProductsType[]}) { 
 
     return (
 
