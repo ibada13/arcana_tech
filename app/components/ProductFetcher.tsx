@@ -15,7 +15,7 @@ interface ResponseType  {
 export default function ProductsFetcher({title , type , feed , limit  }: {title?:string ,type?:string , feed?:string , limit?:string}) { 
     const query = useMemo(() => {
         const p = new URLSearchParams();
-        if (type) p.append("type", type);
+        if (type) p.append("product_type", type);
         if (feed) p.append("feed", feed);
         if (limit) p.append("limit", limit);
         return `/products/search?${p.toString()}`;

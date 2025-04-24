@@ -1,6 +1,8 @@
 'use client'
 import { useAuth } from "@/app/hooks/auth"
 import { FormEvent } from "react"
+import { GiCpuShot } from "react-icons/gi";
+
 const LoginPage = () => {
     const { login, loading } = useAuth({redirectIfAuthenticated:"/"})
 
@@ -22,11 +24,22 @@ const LoginPage = () => {
   }
 
   return (
-    <form onSubmit={handleLogin} className="flex flex-col gap-y-15">
-      <input  name="email" placeholder="Email" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <button type="submit" className="bg-red-500 hover:bg-red-900">Login</button>
+    <div className="w-screen min-h-screen p-4 bg-gray-900 flex items-center justify-center">
+
+    <form onSubmit={handleLogin} className="flex flex-col items-center bg-black gap-y-8 min-h-2/3 w-2/5 shadow-2xl mt-32 rounded-lg p-4">
+    <GiCpuShot color="#f00"  size={90}/>
+    <p className="text-4xl uppercase">Login</p>
+        <div className="flex flex-col gap-y-3 w-full">
+          <label className="text-xl  font-bold" htmlFor="">Email</label>
+      <input className="focus:ring-0 focus:outline-0 bg-gray-800 p-2 rounded-lg"  name="email" placeholder="Enter Your Email" required />
+      </div>
+        <div className="flex flex-col gap-y-3 w-full">
+         <label className="text-xl  font-bold" htmlFor="">Password</label> 
+      <input className="focus:ring-0 focus:outline-0 bg-gray-800 p-2 rounded-lg" type="password" name="password" placeholder="Enter Your Password" required />
+      </div>
+      <button type="submit" className="bg-red-500 uppercase hover:bg-red-900 transition-all duration-300 p-4 rounded-lg">Login</button>
     </form>
+    </div>
   )
 }
 export default LoginPage
