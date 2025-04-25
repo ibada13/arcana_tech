@@ -2,9 +2,9 @@
 import { useAuth } from "@/app/hooks/auth"
 import { FormEvent } from "react"
 import { GiCpuShot } from "react-icons/gi";
-
+import Loading from "@/app/Loading";
 const LoginPage = () => {
-    const { login, loading } = useAuth({redirectIfAuthenticated:"/"})
+    const { login, loading } = useAuth({middleware:"guest",redirectIfAuthenticated:"/"})
 
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -19,9 +19,9 @@ const LoginPage = () => {
     }
   }
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
+  if (loading)
+    return <Loading/>
+
 
   return (
     <div className="w-screen min-h-screen p-4 bg-gray-900 flex items-center justify-center">

@@ -2,13 +2,14 @@ import { GiCpuShot } from "react-icons/gi";
 import { HiMenu, HiX } from "react-icons/hi";
 import { FaChevronDown } from "react-icons/fa";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { navLinks } from "./data/linksdata";
-
+import { IoLogOutOutline } from "react-icons/io5";
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
-
+    // const { logout} = useAuth({})
+    
     // Open/close the dropdown on hover
     const handleDropdownToggle = (title: string) => {
         if (dropdownOpen === title) {
@@ -21,8 +22,12 @@ export default function Navbar() {
     return (
         <>
             <div className="bg-gradient-to-r from-black via-black/60 to-red-900 z-50 fixed top-0 left-1/2 transform -translate-x-1/2 w-[95%] mt-8 rounded-lg font-light backdrop-blur-md flex justify-between md:justify-normal md:gap-x-25 items-center p-4 ">
+                
+                    
                 <GiCpuShot size={50} />
-                <div className="hidden md:flex w-5/6 md:justify-around flex-1">
+     
+
+                <div className="hidden md:flex  md:justify-around flex-1 ">
                     {navLinks.map((nav) => (
                         <div 
                             key={nav.title} 
@@ -52,6 +57,12 @@ export default function Navbar() {
                         </div>
                     ))}
                 </div>
+                {
+                <button  className="hover:text-black transition-colors duration-300">
+
+<IoLogOutOutline size={50}  />
+</button>
+                }
                 <HiMenu size={30} className="cursor-pointer md:hidden" onClick={() => setIsOpen(true)} />
             </div>
 

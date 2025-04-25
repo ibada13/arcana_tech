@@ -4,9 +4,10 @@ import axios from '@/app/lib/axios'
 //  import { AxiosError, AxiosResponse }  from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { headers } from 'next/headers'
 
 interface AuthHookOptions {
-    middleware?: 'auth' | 'guest'
+    middleware?: 'auth' | 'guest'|"optional"
     redirectIfAuthenticated?: string
 }
 interface token { 
@@ -54,16 +55,51 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: AuthHookOptions
     const router = useRouter()
     const params = useParams<{ token: string }>()
     const [isAuth, setIsAuth] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(true);
-    useEffect(() => {
-        const token = localStorage.getItem("token")
-        setIsAuth(!!token)
-        console.log(!!token && redirectIfAuthenticated)
-        if (!!token && redirectIfAuthenticated)
-            router.push(redirectIfAuthenticated)
-        setLoading(false)
-        
-    }, [])
+  const [loading, setLoading] = useState<boolean>(true);
+  const [User, SetUser] = useState();
+  useEffect(() => {
+    const fetchUser = async () => {
+      console.log("Started fetching user..."); // Log to debug
+  
+      setLoading(true);  // Start loading
+  
+      try {
+        const user = await checkUser(); // Call checkUser()
+  
+        console.log("User authenticated:", user); // Log user data (true or false)
+  
+        if (!user) {
+          if (window.location.pathname !== "/login") {
+            console.log("Redirecting to login...");
+            router.push("/login");  // Redirect to login if not authenticated
+          }
+        } else {
+          setIsAuth(true); // Set user as authenticated
+          console.log("User is authenticated.");
+  
+          if (redirectIfAuthenticated) {
+            console.log("Redirecting to:", redirectIfAuthenticated);
+            router.push(redirectIfAuthenticated); // Redirect if authenticated
+          }
+        }
+      } catch (err) {
+        console.error("Error during auth check:", err); // Log error
+        if (window.location.pathname !== "/login") {
+          console.log("Redirecting to login due to error...");
+          router.push("/login"); // Redirect to login if error occurs
+        }
+      } finally {
+        console.log("Setting loading to false..."); // Log to debug
+        setLoading(false); // Set loading to false when everything is done
+      }
+    };
+  
+    fetchUser();  // Start the user-fetching process
+  
+  }, []); // Ensure the effect runs when needed
+  
+  
+  
     
 
 
@@ -74,14 +110,14 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: AuthHookOptions
             params.append('password', password)
             const response = await axios.post('/auth/token', params, {
 
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                headers: { "Content-Type": 'application/x-www-form-urlencoded' }
             }
             )
             console.log(response)
           const  token = (response.data as token).access_token
           localStorage.setItem('token', token)
           setIsAuth(true)
-        //   router.push('/dashboard') 
+            router.push("/dashboard")
         } catch (error) {
           console.error('Login failed', error)
           throw new Error('Invalid credentials or server error')
@@ -112,9 +148,43 @@ export const useAuth = ({ middleware, redirectIfAuthenticated }: AuthHookOptions
         setIsAuth(false)
         router.push('/login')  
       }
+  const getUser = async () => {
+    const token = localStorage.getItem("token")
+    try { 
+      const response  =await axios.get("/auth",
+        {headers: {
+          Authorization:`Bearer ${token}`,
+          Accept:"application/json"
+        }
+        })
+      return response.data
+    }
+    catch (error) {
+      localStorage.removeItem("token")
+      console.log(error)
+      return null
+     }
+  }
+  
+  const checkUser = async () => {
+    const token = localStorage.getItem("token")
+    try { 
+      await axios.get("/auth/check",
+        {headers: {
+          Authorization:`Bearer ${token}`,
+          Accept:"application/json"
+        }
+        })
+      return true
+    }
+    catch (error) {
+      localStorage.removeItem("token")
+      console.log(error)
+      return false
+     }
+   }
 
-
-    return { isAuth, loading , login  , register ,logout}
+    return {checkUser, getUser,isAuth, loading , login  , register ,logout}
     
 }
 
