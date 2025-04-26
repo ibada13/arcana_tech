@@ -1,21 +1,54 @@
-'use client'
+'use client';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Backgorund from "./components/Background";
-import Navbar from "./components/Navbar";
 import Welcome from "./components/subcomponents/Welcome";
 import ProductsFetcherSection from "./components/ProductsFetcherSection";
 import DivBackground from "./components/DivBackground";
-import { pcs ,components } from "./components/data/data";
+
 export default function Home() {
+  const [status, setStatus] = useState<"out" | "in" | "">('');
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const action = searchParams.get('action');
+
+    if (action === 'loggedin') {
+      setStatus('in');
+    } else if (action === 'loggedout') {
+      setStatus('out');
+    } else {
+      setStatus('');
+    }
+
+    setTimeout(() => {
+      window.history.replaceState(null, '', '/');
+    }, 5000);
+  }, [searchParams]);
+
   return (
     <div className="flex flex-col min-h-screen gap-y-25">
       <Backgorund />
-      {/* <Navbar /> */}
       <Welcome />
+      {status === "in" ? (
+        <div
+            onClick={() => setStatus("")}
+            className="fixed bottom-1/12 right-0 mr-8 h-1/5 w-1/4 flex justify-center items-center rounded-xl bg-green-400/90 p-4 cursor-pointer transform transition-transform duration-300 ease-out active:scale-95 active:bg-green-700"
+        >
+            <p className="uppercase text-xl font-bold tracking-wider">welcome admin</p>
+        </div>
+      ) : status === "out" ? (
+        <div
+          onClick={() => setStatus("")}
+          className="fixed bottom-1/12 right-0 mr-8 h-1/5 w-1/4 flex justify-center items-center rounded-xl bg-red-400/90 p-4 cursor-pointer transform transition-all duration-300 ease-out active:scale-95 active:bg-red-800"
+        >
+          <p className="uppercase text-xl font-bold tracking-wider">Logged out</p>
+          </div>
 
-    <ProductsFetcherSection feed="best" link={"/feed/best"} limit={6}  title="our best sellers"/>
-    <ProductsFetcherSection feed="new"  limit={3} title="New Arrivals" link="/feed/new"/>
-    <DivBackground src="/divbackground3.jpg"/>
-    {/* <Products products={components} proucts_size={3} title="best components to build your pc"/> */}
+      ) : null}
+      <ProductsFetcherSection feed="best" link={"/feed/best"} limit={6} title="our best sellers" />
+      <ProductsFetcherSection feed="new" limit={3} title="New Arrivals" link="/feed/new" />
+      <DivBackground src="/divbackground3.jpg" />
     </div>
   );
 }
