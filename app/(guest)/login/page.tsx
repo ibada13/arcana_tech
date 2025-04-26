@@ -1,11 +1,17 @@
 'use client'
 import { useAuth } from "@/app/hooks/auth"
-import { FormEvent } from "react"
+import { FormEvent, useEffect } from "react"
 import { GiCpuShot } from "react-icons/gi";
 import Loading from "@/app/Loading";
+import { useRouter } from "next/navigation";
 const LoginPage = () => {
-    const { login, loading } = useAuth({middleware:"guest",redirectIfAuthenticated:"/"})
-
+  const {isAuth , login, loading } = useAuth()
+  const router = useRouter()
+  useEffect(() => { 
+    if (isAuth) { 
+      router.push("/")
+    }
+  },[isAuth ,router])
   const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 

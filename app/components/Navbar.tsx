@@ -2,12 +2,14 @@ import { GiCpuShot } from "react-icons/gi";
 import { HiMenu, HiX } from "react-icons/hi";
 import { FaChevronDown } from "react-icons/fa";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import {   useState } from "react";
 import { navLinks } from "./data/linksdata";
 import { IoLogOutOutline } from "react-icons/io5";
+import { useAuth } from "../hooks/auth";
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
+    const {isAuth ,user ,logout} = useAuth()
     // const { logout} = useAuth({})
     
     // Open/close the dropdown on hover
@@ -57,8 +59,8 @@ export default function Navbar() {
                         </div>
                     ))}
                 </div>
-                {
-                <button  className="hover:text-black transition-colors duration-300">
+                {isAuth&&
+                <button  onClick={()=>logout()} className="hover:text-black transition-colors duration-300">
 
 <IoLogOutOutline size={50}  />
 </button>
