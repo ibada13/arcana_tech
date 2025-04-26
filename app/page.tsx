@@ -33,14 +33,14 @@ export default function Home() {
       {status === "in" ? (
         <div
             onClick={() => setStatus("")}
-            className="fixed bottom-1/12 right-0 mr-8 h-1/5 w-1/4 flex justify-center items-center rounded-xl bg-green-400/90 p-4 cursor-pointer transform transition-transform duration-300 ease-out active:scale-95 active:bg-green-700"
+            className="fixed bottom-1/12 right-0 mr-8 h-1/5 w-1/4 flex justify-center items-center rounded-xl bg-green-400/90 p-4 hover:bg-green-700 cursor-pointer transform transition-all  duration-300 ease-out active:scale-95 active:bg-green-800"
         >
             <p className="uppercase text-xl font-bold tracking-wider">welcome admin</p>
         </div>
       ) : status === "out" ? (
         <div
           onClick={() => setStatus("")}
-          className="fixed bottom-1/12 right-0 mr-8 h-1/5 w-1/4 flex justify-center items-center rounded-xl bg-red-400/90 p-4 cursor-pointer transform transition-all duration-300 ease-out active:scale-95 active:bg-red-800"
+          className="fixed bottom-1/12 right-0 mr-8 h-1/5 w-1/4 flex justify-center items-center rounded-xl bg-red-400/90 p-4 hover:bg-red-700 cursor-pointer transform transition-all duration-300 ease-out active:scale-95 active:bg-red-800"
         >
           <p className="uppercase text-xl font-bold tracking-wider">Logged out</p>
           </div>
