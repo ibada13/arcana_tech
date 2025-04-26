@@ -9,7 +9,6 @@ import { useAuth } from "../hooks/auth";
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState<string | null>(null);
-    const {isAuth ,user ,logout} = useAuth()
     // const { logout} = useAuth({})
     
     // Open/close the dropdown on hover
@@ -59,12 +58,7 @@ export default function Navbar() {
                         </div>
                     ))}
                 </div>
-                {isAuth&&
-                <button  onClick={()=>logout()} className="hover:text-black transition-colors duration-300">
-
-<IoLogOutOutline size={50}  />
-</button>
-                }
+     
                 <HiMenu size={30} className="cursor-pointer md:hidden" onClick={() => setIsOpen(true)} />
             </div>
 

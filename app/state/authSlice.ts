@@ -56,7 +56,7 @@ export const checkUser = createAsyncThunk('auth/checkUser', async () => {
 export const getUser = createAsyncThunk('auth/getUser', async () => {
   const token = getTokenFromLocalStorage();
   if (token) {
-    const response = await axios.get('/auth', {
+    const response = await axios.get('/auth/', {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;

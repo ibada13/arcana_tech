@@ -5,13 +5,13 @@ import Navbar from "./components/Navbar";
 import { Provider } from "react-redux";
 import { store } from "./state/store";
 import AuthInit from "./AuthInit";
+import SideNavbar from "./components/SideNavbar";
 const cairo = Cairo({
   
 
  
   subsets: ["latin"],
 });
-
 
 
 
@@ -30,6 +30,7 @@ export default function RootLayout({
         >
           <AuthInit />
         <Navbar />
+        <SideNavbar />
         {children}
       </body>
         </Provider>
