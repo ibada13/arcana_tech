@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import useSWR from "swr";
-import { get } from "@/app/lib/utlis";
+import { get,post } from "@/app/lib/utlis";
 
 const sharedFields = [
   { name: "company_name", label: "Company Name", type: "text", required: true },
@@ -63,6 +63,7 @@ export default function AddProductPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    await post(`/${category}s`,formData)
     console.log(formData);
   };
 
@@ -78,7 +79,7 @@ export default function AddProductPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <select
-            name="category"
+            name="type"
             value={category}
             onChange={(e) => {
               setCategory(e.target.value as any);
@@ -88,9 +89,9 @@ export default function AddProductPage() {
             className="p-3 bg-gray-800 text-white border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">Select Category</option>
-            <option value="pc">PC</option>
-            <option value="networking">Networking</option>
-            <option value="peripheral">Peripheral</option>
+            <option value="pcs">PC</option>
+            <option value="networkings">Networking</option>
+            <option value="peripherals">Peripheral</option>
           </select>
 
           {category && (
