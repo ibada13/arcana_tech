@@ -3,7 +3,9 @@
 import { useState } from "react";
 import useSWR from "swr";
 import { get,post } from "@/app/lib/utlis";
-
+import { useAuth } from "@/app/hooks/auth";
+import NotFound from "@/app/NotFound";
+import { useRouter } from "next/navigation";
 const sharedFields = [
   { name: "company_name", label: "Company Name", type: "text", required: true },
   { name: "name", label: "Product Name", type: "text", required: true },
@@ -51,8 +53,10 @@ const categoryFields: Record<string, { name: string; label: string; type: string
 export default function AddProductPage() {
   const [category, setCategory] = useState<"pc" | "networking" | "peripheral" | "">("");
   const [formData, setFormData] = useState<Record<string, any>>({});
-
+  const router = useRouter()
   const { data: enums = [], isLoading } = useSWR(category ? `/subenum?name=${category}` : null, get);
+
+  const {isAuth,loading} = useAuth()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({
@@ -60,14 +64,23 @@ export default function AddProductPage() {
       [e.target.name]: e.target.value,
     }));
   };
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await post(`/${category}s`,formData)
+    try {
+
+      const product = await post(`/${category}s`, formData)
+      router.push(`/product/${product.id}`)
+    } catch (err){ 
+      console.log(err)
+    }
     console.log(formData);
   };
-
+  
   const fieldsToRender = [...sharedFields, ...(category ? categoryFields[category] || [] : [])];
+  if (!loading && !isAuth) {
+    return <NotFound />
+  }
 
   return (
     <div className="min-h-screen mt-32 bg-gray-950 flex items-center justify-center p-6">
@@ -89,9 +102,9 @@ export default function AddProductPage() {
             className="p-3 bg-gray-800 text-white border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">Select Category</option>
-            <option value="pcs">PC</option>
-            <option value="networkings">Networking</option>
-            <option value="peripherals">Peripheral</option>
+            <option value="pc">PC</option>
+            <option value="networking">Networking</option>
+            <option value="peripheral">Peripheral</option>
           </select>
 
           {category && (

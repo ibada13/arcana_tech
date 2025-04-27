@@ -22,6 +22,7 @@ export const login = createAsyncThunk(
     if (typeof window !== 'undefined') {
       localStorage.setItem('token', response.data.access_token);
     }
+    
     return response.data;
   }
 );
