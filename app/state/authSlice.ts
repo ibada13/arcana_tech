@@ -30,11 +30,14 @@ export const login = createAsyncThunk(
 export const register = createAsyncThunk(
   'auth/register',
   async ({ username, email, password }: { username: string; email: string; password: string }) => {
-    const response = await axios.post('/auth/register', { username, email, password });
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
+    const response = await axios.post('/auth/register', { username, email, password }, {
+      headers: {
+        Authorization: token ? `Bearer ${token}` : ""
+      } 
+    });
 
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('token', response.data.access_token);
-    }
+
     return response.data;
   }
 );
