@@ -6,6 +6,7 @@ import { get,post } from "@/app/lib/utlis";
 import { useAuth } from "@/app/hooks/auth";
 import NotFound from "@/app/NotFound";
 import { useRouter } from "next/navigation";
+import MultipleImageUploader from "../components/ImagesLoader";
 const sharedFields = [
   { name: "company_name", label: "Company Name", type: "text", required: true },
   { name: "name", label: "Product Name", type: "text", required: true },
@@ -90,6 +91,7 @@ export default function AddProductPage() {
       >
         <h1 className="text-4xl font-bold text-center text-red-500 uppercase tracking-widest">Add New Product</h1>
 
+        <MultipleImageUploader />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <select
             name="type"
