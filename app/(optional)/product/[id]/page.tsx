@@ -1,65 +1,66 @@
-'use client'
-import { get } from "@/app/lib/utlis"
-import { useParams } from "next/navigation"
-import Error from "@/app/Error"
-import Loading from "@/app/Loading"
-import useSWR from "swr"
-import NoRes from "@/app/NoRes"
-import { ProductType } from "../../data/type"
-interface ResponseType { 
-    product:ProductType
+'use client';
+
+import { get,getAdmin } from "@/app/lib/utlis";
+import { useParams } from "next/navigation";
+import Error from "@/app/Error";
+import Loading from "@/app/Loading";
+import NoRes from "@/app/NoRes";
+import useSWR from "swr";
+import { ProductType } from "../../data/type";
+
+interface ResponseType {
+  product: ProductType;
 }
-export default function Product() { 
-    const { id } = useParams() as {id:string}
-    const {data , isLoading ,error } = useSWR<ResponseType>(`/product?id=${id}`,get)
-    if (isLoading)
-            return <Loading />
-    if (error)
-            return <Error/>
-    if (!data?.product)
-        return <NoRes />
-    
-    console.log(data?.product)
-    
-    const { name  ,price, id:prid , description ,...product} = data.product
-    return (
-        <div className="mt-32 flex flex-col gap-y-4  p-4">
-            <div>
-                <p className="text-4xl text-white font-bold text-center">
-                    {name}
-                </p>
-            </div>
-            <div className="flex flex-col-reverse md:flex-row gap-x-3">
 
-            <div className="flex flex-col w-[50vw] gap-y-4">
+export default function Product() {
+  const { id } = useParams<{ id: string }>();
+  const { data, isLoading, error } = useSWR<ResponseType>(`/product?id=${id}`, get);
+  const { data:stateData, isLoading:stateIsLoading, error:stateError } = useSWR<any>(`/state/product?id=${id}`, getAdmin);
 
-            {Object.entries(product as any).map(([key, value]) => (
-                <div className="flex gap-x-2">
+  if (isLoading) return <Loading />;
+  if (error) return <Error />;
+    if (!data?.product) return <NoRes />;
+    if (stateData)
+        console.log(stateData)
+  const { name, price, id: productId, description, ...otherDetails } = data.product;
 
-                    <p className="text-gray-500 font-bold text-lg border-l-2 border-l-red-500 px-2 rounded-sm">
-                        { key}
-                </p>
-                <p className="text-red-600">:</p>
-                    <p className="text-white font-semibold text-lg">
-                        {String(value)}
-                </p>
-                </div>
-            ))
-                    }
-        </div>
-                    <div className="h-screen flex-grow  bg-red-400">alo</div>
-                    <div className="h-screen w-[10vw]  bg-blue-400">test</div>
-        </div>
-            <p className="text-white text-lg"> 
-                
-            </p>
-            <div>
-                <div></div>
-                <div></div>
+  return (
+    <div className="mt-32 p-6 flex flex-col gap-8">
+      <h1 className="text-4xl font-extrabold text-center text-white">{name}</h1>
+          {stateData?.product&&
+              <div className="flex items-center justify-around w-full ">
+              <p className="text-white font-semibold uppercase ">quantity :{ stateData.product.quantity}</p>
+              <p className="text-white font-semibold uppercase ">sold : {stateData.product.sold }</p>
+              </div>
+          }
+      <div className="flex flex-col-reverse md:flex-row gap-6">
+        <div className="flex flex-col gap-y-2 w-full md:w-1/2">
+          {Object.entries(otherDetails).map(([key, value]) => (
+            <div key={key} className="flex items-center gap-x-3">
+              <span className="text-sm font-semibold text-gray-400 capitalize">
+                {key}
+              </span>
+              <span className="text-red-500 font-bold">:</span>
+              <span className="text-sm font-medium text-white">{String(value)}</span>
             </div>
-            <div>
-                
-            </div>
+          ))}
         </div>
-    )
+
+        <div className="flex flex-col gap-6 w-full md:w-1/2">
+          <div className="h-64 bg-red-400 rounded-lg flex items-center justify-center text-white font-bold">
+            Image or Media
+          </div>
+          <div className="h-32 bg-blue-400 rounded-lg flex items-center justify-center text-white font-bold">
+            Related Info
+          </div>
+        </div>
+      </div>
+
+      {description && (
+        <p className="text-lg text-gray-300 mt-6 leading-relaxed">
+          {description}
+        </p>
+      )}
+    </div>
+  );
 }
