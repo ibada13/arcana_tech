@@ -5,7 +5,12 @@ const AuthInit = () => {
     const { checkUser } = useAuth();
 
     useEffect(() => { 
-        checkUser()
+        const  intervalId = setInterval(
+
+           ()=> checkUser()
+            ,13000
+        )
+        return () => clearInterval(intervalId);
     }, [])
 
     return null

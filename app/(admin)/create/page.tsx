@@ -37,6 +37,7 @@ export default function AddProductPage() {
   const [category, setCategory] = useState<"pc" | "networking" | "peripheral" | "">("");
   const [formData, setFormData] = useState<Record<string, any>>({});
   const [images, setImages] = useState<File[]>([]);
+  const [mainImage, setMainImage] = useState<File>();
   const router = useRouter();
   const { data: enums = [], isLoading } = useSWRImmutable(category ? `/subenum?name=${category}` : null, get);
 
@@ -50,6 +51,9 @@ export default function AddProductPage() {
   };
 
   const handleImageUpload = (uploadedImages: File[]) => {
+    setMainImage(uploadedImages[0]);
+  };
+  const handleImagesUpload = (uploadedImages: File[]) => {
     setImages(uploadedImages);
   };
 
@@ -61,10 +65,15 @@ export default function AddProductPage() {
     formDataToSend.append("data",JSON.stringify(formData))
   
     
-    if (images.length > 0) {
-      formDataToSend.append("image", images[0]);
+    if (mainImage) {
+      formDataToSend.append("image", mainImage);
     }
-  
+    if (images?.length > 0) { 
+      images.map((image, index) => {
+        formDataToSend.append("images[]",image)
+       })
+     
+    }
     try {
       const response = await post(`/${category}s`, formDataToSend);
   
@@ -88,7 +97,8 @@ export default function AddProductPage() {
       >
         <h1 className="text-4xl font-bold text-center text-red-500 uppercase tracking-widest">Add New Product</h1>
 
-        <MultipleImageUploader onUploadAction={handleImageUpload} />
+        <MultipleImageUploader label="Select the main Image:" onUploadAction={handleImageUpload} />
+        <MultipleImageUploader label="Select at max 4 Images:" onUploadAction={handleImagesUpload} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <select
@@ -99,7 +109,7 @@ export default function AddProductPage() {
               handleChange(e);
             }}
             required
-            className="p-3 w-full bg-gray-800 text-white border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="p-3 col-span-full bg-gray-800 text-white border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             <option value="">Select Category</option>
             <option value="pc">PC</option>
@@ -113,7 +123,7 @@ export default function AddProductPage() {
               onChange={handleChange}
               required
               disabled={isLoading}
-              className="p-3 bg-gray-800 text-white border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="p-3 col-span-full bg-gray-800 text-white border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500"
             >
               <option value="">Select Product Type</option>
               {enums.map((enumValue: string) => (

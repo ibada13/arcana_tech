@@ -5,9 +5,10 @@ import { AiOutlinePlus } from 'react-icons/ai';
 
 interface MultipleImageUploaderProps {
   onUploadAction: (images: File[]) => void;
+  label: string;
 }
 
-export default function MultipleImageUploader({ onUploadAction }: MultipleImageUploaderProps) {
+export default function MultipleImageUploader({ onUploadAction ,label}: MultipleImageUploaderProps) {
   const [images, setImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -30,6 +31,7 @@ export default function MultipleImageUploader({ onUploadAction }: MultipleImageU
 
   return (
     <div className="flex flex-col gap-4">
+      <label htmlFor="" className='uppercase tracking-wider text-2xl'>{ label}</label>
       <input
         name="image"
         type="file"
