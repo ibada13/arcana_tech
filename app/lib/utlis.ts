@@ -40,12 +40,14 @@ export async function getAdmin(route: string) {
 
 
 export async function post(route: string, data: any) {
+  
     try {
         const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
-
+        console.log(data)
         const response = await axios.post(route, data, {
             headers: {
-                Authorization: token ? `Bearer ${token}` : '',
+            Authorization: token ? `Bearer ${token}` : '',
+            'Content-Type': 'multipart/form-data',
             },
         })
 

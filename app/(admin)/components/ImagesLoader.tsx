@@ -3,26 +3,35 @@
 import { useState, ChangeEvent, useRef } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-export default function MultipleImageUploader() {
-  const [images, setImages] = useState<string[]>([]);
-    const fileInputRef = useRef<HTMLInputElement>(null);
+interface MultipleImageUploaderProps {
+  onUploadAction: (images: File[]) => void;
+}
+
+export default function MultipleImageUploader({ onUploadAction }: MultipleImageUploaderProps) {
+  const [images, setImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
     const filesArray = Array.from(e.target.files);
-    const imagesArray = filesArray.map(file => URL.createObjectURL(file));
+    const imagePreviewsArray = filesArray.map(file => URL.createObjectURL(file));
 
-    setImages(prev => [...prev, ...imagesArray]);
+    setImages(prev => [...prev, ...filesArray]);
+    setImagePreviews(prev => [...prev, ...imagePreviewsArray]);
+
+    onUploadAction([...images, ...filesArray]);
   };
 
   const handleIconClick = () => {
-      fileInputRef.current?.click();
+    fileInputRef.current?.click();
   };
 
   return (
     <div className="flex flex-col gap-4">
       <input
+        name="image"
         type="file"
         accept="image/*"
         multiple
@@ -39,7 +48,7 @@ export default function MultipleImageUploader() {
       </div>
 
       <div className="flex flex-wrap w-full justify-around items-center">
-        {images.map((src, index) => (
+        {imagePreviews.map((src, index) => (
           <img
             key={index}
             src={src}
