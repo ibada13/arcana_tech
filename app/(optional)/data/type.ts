@@ -35,6 +35,7 @@ export interface ProductType {
     product_type: string,
     ram: string,
     cpu: string,
-    storage: string
-      
+    storage: string,
+    alternate_images?:string[]
+    iamge?:string
 }

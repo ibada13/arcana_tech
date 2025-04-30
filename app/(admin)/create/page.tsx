@@ -70,14 +70,14 @@ export default function AddProductPage() {
     }
     if (images?.length > 0) { 
       images.map((image, index) => {
-        formDataToSend.append("images[]",image)
+        formDataToSend.append("images",image)
        })
      
     }
     try {
       const response = await post(`/${category}s`, formDataToSend);
   
-      router.push(`/product/${response.data.id}`);
+      router.push(`/product/${response.id}`);
     } catch (err) {
       console.error("Upload failed:")
     }
