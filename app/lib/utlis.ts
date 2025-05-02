@@ -47,7 +47,8 @@ export async function post(route: string, data: any) {
         const response = await axios.post(route, data, {
             headers: {
             Authorization: token ? `Bearer ${token}` : '',
-            'Content-Type': 'multipart/form-data',
+              "Content-Type": "application/json"
+            
             },
         })
 
@@ -56,4 +57,22 @@ export async function post(route: string, data: any) {
     } catch (e) {
         console.error(e)
     }
+}
+export async function postForm(route: string, data: any) {
+  
+  try {
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null
+      console.log(data)
+      const response = await axios.post(route, data, {
+          headers: {
+          Authorization: token ? `Bearer ${token}` : '',
+          'Content-Type': 'multipart/form-data',
+          },
+      })
+
+      console.log(response.data)
+      return response.data
+  } catch (e) {
+      console.error(e)
+  }
 }

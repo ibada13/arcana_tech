@@ -5,13 +5,13 @@ import AddCart from "../AddCart";
 export default function Card({ product }: { product: any }) {
     return (
         <div
-        className="group pb-6 relative w-64 rounded-sm overflow-hidden border border-gray-700 bg-black/60 backdrop-blur-sm hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-2xl flex flex-col items-center"
+        className="group pb-6 relative w-64 rounded-sm  overflow-hidden border border-gray-700 bg-black/60 backdrop-blur-sm  shadow-lg hover:shadow-2xl flex flex-col items-center"
 
         >
 
         <Link
                 href={`/product/${product.id}`}
-                className="w-full"
+                className="w-full hover:scale-105 transition-all duration-300"
             >
             <div className="relative h-44 w-full ">
                 <Image

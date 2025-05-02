@@ -2,7 +2,7 @@
 import { useState } from "react";
 import useSWR from "swr";
 import useSWRImmutable from "swr/immutable";
-import { get, post } from "@/app/lib/utlis";
+import { get, postForm } from "@/app/lib/utlis";
 import { useAuth } from "@/app/hooks/auth";
 import NotFound from "@/app/NotFound";
 import { useRouter } from "next/navigation";
@@ -75,7 +75,7 @@ export default function AddProductPage() {
      
     }
     try {
-      const response = await post(`/${category}s`, formDataToSend);
+      const response = await postForm(`/${category}s`, formDataToSend);
   
       router.push(`/product/${response.id}`);
     } catch (err) {
