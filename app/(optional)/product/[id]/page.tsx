@@ -9,7 +9,7 @@ import useSWR from "swr";
 import { ProductType } from "../../data/type";
 import { useState, useEffect } from "react";
 import Image from "next/image";
-
+import AddCart from "@/app/components/AddCart";
 interface ResponseType {
   product: ProductType;
 }
@@ -63,7 +63,10 @@ export default function Product() {
 
         <div className="flex flex-col gap-4 w-full md:w-1/2">
           <div className="relative w-full h-80 rounded-xl overflow-hidden bg-red-400">
-            {mainImage && (
+            <div className="bg-red-500 object-cover">
+              j
+            </div>
+            {/* {mainImage && (
               <Image
                 src={mainImage}
                 alt="Main product image"
@@ -71,11 +74,11 @@ export default function Product() {
                 className="object-cover"
                 priority
               />
-            )}
+            )} */}
           </div>
 
           <div className="flex gap-3 overflow-x-auto">
-            {[image, ...(alternate_images || [])].map((altImage, index) => (
+            {alternate_images &&[image, ...(alternate_images || [])].map((altImage, index) => (
               <div
                 key={index}
                 onClick={() => setMainImage(altImage)}
@@ -90,6 +93,7 @@ export default function Product() {
               </div>
             ))}
           </div>
+            <AddCart item={{name:Product.name , id:id , quantity : 1 ,price :price}} />
         </div>
       </div>
 

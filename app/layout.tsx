@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "./state/store";
 import AuthInit from "./AuthInit";
 import SideNavbar from "./components/SideNavbar";
+import StoreInit from "./StoreInit";
 const cairo = Cairo({
   
 
@@ -29,7 +30,8 @@ export default function RootLayout({
         className={`${cairo.className}  antialiased`}
         >
           <AuthInit />
-        <Navbar />
+          <Navbar />
+          <StoreInit/>
         <SideNavbar />
         {children}
       </body>

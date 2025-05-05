@@ -11,7 +11,6 @@ import Link from 'next/link';
 export default function Home() {
   const [status, setStatus] = useState<"out" | "in" | "">('');
   const searchParams = useSearchParams();
-  const hasItems = useAppSelector((state) => state.cart.items.length > 0);
   useEffect(() => {
     const action = searchParams.get('action');
 
@@ -49,9 +48,7 @@ export default function Home() {
 
       ) : null}
 
-      {hasItems &&
-          <Link className='fixed bottom-1/14 right-1/20 z-50 flex justify-center items-center  h-18 w-18 rounded-full bg-green-400 hover:bg-black hover:text-green-400 hover:border-2 hover:border-green-400 transition-colors duration-300' href={"/cart"}><CiShoppingCart size={45}/></Link>
-       }
+
       <ProductsFetcherSection feed="best" link={"/feed/best"} limit={6} title="our best sellers" />
       <ProductsFetcherSection feed="new" limit={3} title="New Arrivals" link="/feed/new" />
       <DivBackground src="/divbackground3.jpg" />
